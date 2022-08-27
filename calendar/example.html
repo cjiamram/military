@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>ทำ Calendar Datepicker แบบเลือกเดือน และ ปีพุทธศักราช (พ.ศ.) / คริสต์ศักราช (ค.ศ.) ได้</title>
+<meta http-equiv="Content-Type" content="text/html; charset=tis-620">
+
+<STYLE type=text/css>
+  A:link { color: #0000cc; text-decoration:none}
+  A:visited {color: #0000cc; text-decoration: none}
+  A:hover {color: red; text-decoration: none}
+ </STYLE>
+<style type="text/css">
+<!--
+small { font-family: Arial, Helvetica, sans-serif; font-size: 8pt; } 
+input, textarea { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; } 
+b { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; } 
+big { font-family: Arial, Helvetica, sans-serif; font-size: 15pt; } 
+strong { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; font-weight : extra-bold; } 
+font, td { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; } 
+BODY { font-size: 9pt; font-family: Arial, Helvetica, sans-serif; } 
+-->
+</style>
+
+<link href="calendar.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" src="calendar.js"></script>
+<script language="JavaScript" src="dfilter.js"></script>
+
+</head>
+
+<body>
+
+<center>
+
+<u><big>ทำ Calendar Datepicker แบบเลือกเดือน และ ปีพุทธศักราช (พ.ศ.) / คริสต์ศักราช (ค.ศ.) ได้</big></u>
+
+
+
+            <form name="search" action="#" method="post">
+              <table width="220" border="0" cellspacing="2" cellpadding="0">
+                 <tr>
+                  <td colspan="2" bgcolor="#CEC7C7"><div align="center">:: แบบฟอร์มปฏิทิน ::</div></td>
+                 </tr>
+                 <tr>
+                  <td colspan="2">&nbsp;</td>
+                 </tr>
+                 <tr>
+                  <td width="70"><div align="left">วันที่ 1 : </div></td>
+                  <td width="150"><INPUT size=10 id="start_date" name="start_date" onKeyDown="javascript:return dFilter (event.keyCode, this, '##/##/####');"> <input type="button" value="ปฏิทิน" onClick="showCalendar('start_date','DD-MM-YYYY')"></td>
+                 </tr>
+                 <tr>
+                  <td><div align="left">วันที่ 2 : </div></td>
+                  <td><INPUT size=10 id="end_date" name="end_date" onKeyDown="javascript:return dFilter (event.keyCode, this, '##/##/####');"> 
+                    <input type="button" value="ปฏิทิน" onClick="showCalendar('end_date','DD-MM-YYYY')"></td>
+                 </tr>
+                 <tr>
+                  <td colspan="2">&nbsp;</td>
+                 </tr>
+                 <tr>
+                  <td colspan="2"><div align="center"><INPUT type="submit" value="บันทึกข้อมูล" name="submit_bt"> <INPUT type="reset" value="ยกเลิก" name="reset_bt"></div></td>
+                 </tr>
+              </table>
+              </form>
+
+
+<br>
+ 
+<hr width="75%">
+<br><big>อธิบายเพิ่มเติมโดย : <a href="http://www.codetukyang.com" target="_blank">http://www.codetukyang.com</a></big>
+<br><br>
+<hr width="75%">
+
+
+</center>
+
+
+</body>
+</html>
