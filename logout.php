@@ -8,5 +8,7 @@ function Redirect($url, $permanent = false)
     exit();
 }
 
-Redirect('login.php', false);
+Redirect('https://cos.nrru.ac.th/military', false);
+//Redirect('login.php', false);
+
 ?>

@@ -223,12 +223,13 @@ function setCurrentDate(obj){
   }
 
 
-  function logout(){
-    $(location).attr('href', 'logout.php')
-  }
+ /* function logout(){
+    //$(location).attr('href', 'logout.php');
+    window.location="logout.php";
+  }*/
 
    function login(){
-    $(location).attr('href', 'login.php')
+    $(location).attr('href', 'login.php');
   }
 
 
@@ -276,7 +277,7 @@ function setCurrentDate(obj){
     return result;
   }
 
-  function executeGet(url,callback){
+  /*function executeGet(url,callback){
     var result;
     $.ajax({
       type:'GET',
@@ -291,7 +292,7 @@ function setCurrentDate(obj){
       }
     });
     return result;
-  }
+  }*/
 
   
 

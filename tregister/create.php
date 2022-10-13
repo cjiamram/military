@@ -45,6 +45,8 @@ $obj->eduLevel=$data->eduLevel;
 $obj->eduProgram=$data->eduProgram;
 $obj->registYear=$registYear;
 $obj->eduType=$data->eduType;
+$obj->everRequest=$data->everRequest;
+$obj->everSchool=$data->everSchool;
 
 
 if($obj->create()){

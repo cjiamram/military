@@ -35,7 +35,7 @@
       <div class="wrap-login100">
         <div class="login100-form-title" style="background-image: url('Login Template/images/bg-01.jpg');">
           <span class="login100-form-title-1">
-            Sodier Registration
+            Military Exception
           </span>
         </div>
 
@@ -117,16 +117,18 @@
       var jsonData=JSON.stringify (jsonObj);
       var data=executeData(url,jsonObj);
       if(data.flag==true){
-        $(location).attr('href','index.php');
+        var url="<?=$rootPath?>/menu/setMenuDefault.php?UserCode="+$("#txtUser").val();
+         data=executeData(url,jsonObj);
+        $(location).attr('href','page.php');
       }
       else
       {
-            url="<?=$rootPath?>/api/nrruCredential.php";
+            var url="<?=$rootPath?>/api/nrruCredential.php";
             data=executeData(url,jsonObj);
             if(data.message==true){
                 url="<?=$rootPath?>/menu/setMenuDefault.php?UserCode="+$("#txtUser").val();
                 flag=executeGet(url);
-                $(location).attr('href','index.php');
+                $(location).attr('href','page.php');
             }else
             {
               swal.fire({

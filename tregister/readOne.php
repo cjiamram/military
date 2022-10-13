@@ -51,7 +51,9 @@ if($num>0){
 			"eduLevel"=>$eduLevel,
 			"eduProgram"=>$eduProgram,
 			"registYear"=>$registYear,
-			"eduType"=>$eduType
+			"eduType"=>$eduType,
+			"everRequest"=>intval($everRequest),
+			"everSchool"=>$everSchool
 		);
 		/*\
 			$obj->telNo=$data->telNo;

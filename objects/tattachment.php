@@ -89,6 +89,47 @@ class  tattachment{
 		}
 		return "";
 	}
+
+	function getDoc($registerId,$docType){
+		$query="SELECT fileName FROM t_attachment 
+		WHERE registerId=:registerId 
+		AND docType=:docType 
+		";
+		$stmt=$this->conn->prepare($query);
+		$stmt->bindParam(":registerId",$registerId);
+		$stmt->bindParam(":docType",$docType);
+		$stmt->execute();
+		if($stmt->rowCount()>0){
+			$row=$stmt->fetch(PDO::FETCH_ASSOC);
+			extract($row);
+			if($fileName!==""){
+				$strT="<div style='width:842px;height:850'><img src='../uploads/".$registerId."/".$docType.".png' width='842px'></div>";
+				return $strT;
+			}
+			return "";
+		}
+		return "";
+		
+	}
+
+	function getDocIframe($registerId,$docType){
+		$query="SELECT fileName FROM t_attachment 
+		WHERE registerId=:registerId 
+		AND docType=:docType 
+		";
+		$stmt=$this->conn->prepare($query);
+		$stmt->bindParam(":registerId",$registerId);
+		$stmt->bindParam(":docType",$docType);
+		$stmt->execute();
+		$row=$stmt->fetch(PDO::FETCH_ASSOC);
+		extract($row);
+		//$strT="<embed src='".$fileName."#toolbar=0' width='842px' height='850px'"; 
+ 		//$strT.="type='application/pdf' frameBorder='0' scrolling='no'>";
+ 		$strT="<iframe id='fred' style='border:1px solid #666CCC' title='PDF in an i-Frame' src='".$fileName."#toolbar=0' frameborder='0' scrolling='auto' height='850' width='850' ></iframe>";
+		return $strT;
+	}
+
+
 	
 	function removeFile($docType,$regId){
 		$query="DELETE FROM t_attachment 

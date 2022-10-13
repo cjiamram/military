@@ -25,7 +25,8 @@ if($num>0){
 					"createDate"=>Format::getTextDateBusdism($createDate),
 					"adminAprove"=>$adminAprove,
 					"description"=>$description,
-					"graceNo"=>$graceNo
+					"graceNo"=>$graceNo,
+					"everSchool"=>$everSchool
 				);
 				array_push($objArr, $objItem);
 			}

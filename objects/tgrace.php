@@ -12,6 +12,7 @@ class  tgrace{
 	public $adminAprove;
 	public $description;
 	public $graceNo;
+	public $everSchool;
 	public function create(){
 		$query="INSERT INTO t_grace  
         	SET 
@@ -20,7 +21,8 @@ class  tgrace{
 			createDate=:createDate,
 			adminAprove=:adminAprove,
 			description=:description,
-			graceNo=:graceNo
+			graceNo=:graceNo,
+			everSchool=:everSchool
 			";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(":studentCode",$this->studentCode);
@@ -29,6 +31,7 @@ class  tgrace{
 		$stmt->bindParam(":adminAprove",$this->adminAprove);
 		$stmt->bindParam(":description",$this->description);
 		$stmt->bindParam(":graceNo",$this->graceNo);
+		$stmt->bindParam(":everSchool",$this->everSchool);
 		$flag=$stmt->execute();
 		return $flag;
 	}
@@ -40,7 +43,8 @@ class  tgrace{
 			createDate=:createDate,
 			adminAprove=:adminAprove,
 			description=:description,
-			graceNo=:graceNo
+			graceNo=:graceNo,
+			everSchool=:everSchool
 		 WHERE id=:id";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(":studentCode",$this->studentCode);
@@ -49,6 +53,7 @@ class  tgrace{
 		$stmt->bindParam(":adminAprove",$this->adminAprove);
 		$stmt->bindParam(":description",$this->description);
 		$stmt->bindParam(":graceNo",$this->graceNo);
+		$stmt->bindParam(":everSchool",$this->everSchool);
 		$stmt->bindParam(":id",$this->id);
 		$flag=$stmt->execute();
 		return $flag;
@@ -60,7 +65,8 @@ class  tgrace{
 			createDate,
 			adminAprove,
 			description,
-			graceNo
+			graceNo,
+			everSchool
 		FROM t_grace WHERE id=:id';
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(':id',$this->id);
@@ -75,9 +81,25 @@ class  tgrace{
 		$stmt->execute();
 		$row=$stmt->fetch(PDO::FETCH_ASSOC);
 		extract($row);
-		//print_r($row["graceNo"]);
 		return intval($row["graceNo"])+1;
 		
+	}
+
+	public function updateEverSchool($everSchool,$studentCode){	
+		$query="UPDATE t_register 
+			SET 
+				everSchool=:everSchool,
+				everRequest=1
+			WHERE studentCode=:studentCode
+		";
+		$stmt=$this->conn->prepare($query);
+		$stmt->bindParam(":studentCode",$studentCode);
+		$stmt->bindParam(":everSchool",$everSchool);
+		//print_r($everSchool);
+		//print_r($studentCode);
+		$flag=$stmt->execute();
+		return $flag;
+
 	} 
 
 	public function getData($studentCode){
@@ -87,7 +109,8 @@ class  tgrace{
 			createDate,
 			adminAprove,
 			description,
-			graceNo
+			graceNo,
+			everSchool
 		FROM t_grace WHERE studentCode LIKE :studentCode ORDER BY graceYear';
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(':studentCode',$studentCode);

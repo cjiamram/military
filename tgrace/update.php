@@ -16,6 +16,8 @@ $obj->createDate = date("Y-m-d");
 $obj->adminAprove = 0;
 $obj->description = $data->description;
 $obj->graceNo = $data->graceNo;
+$obj->everSchool = $data->everSchool;
+
 
 $obj->id = $data->id;
 if($obj->update()){

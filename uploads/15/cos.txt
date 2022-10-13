@@ -1,0 +1,6 @@
+secret value : XL98Q~AAJpL2wkDazADuci4fTqD~74~s12ebhatO
+App ID : 99252957-a0a1-408e-9716-cbbbb97f96dd
+Tenant ID :ff602c01-f281-40ad-b44a-99d35e1cd2cc
+
+
+cos.nrru.ac.th/php-azure

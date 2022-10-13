@@ -16,6 +16,7 @@ $obj->createDate = date("Y-m-d");
 $obj->adminAprove =0;
 $obj->description = $data->description;
 $obj->graceNo = $data->graceNo;
+$obj->everSchool = $data->everSchool;
 
 if($obj->create()){
 		echo json_encode(array('message'=>true));

@@ -11,13 +11,15 @@
 	include_once "../objects/classLabel.php";
 	$cnf=new Config();
 	$rootPath=$cnf->path;
+	$restURL=$cnf->restURL;
 	$database = new Database();
 	$db = $database->getConnection();
 	$objLbl = new ClassLabel($db);
-	$fullName=isset($_SESSION["UserName"])?$_SESSION["UserName"]:"";
+	$fullName=isset($_SESSION["FullName"])?$_SESSION["FullName"]:"";
 	$userCode=isset($_SESSION["UserCode"])?$_SESSION["UserCode"]:"";
 	$objReg=new tregister($db);
 	$id=$objReg->getIdByStdCode($userCode);
+	//print_r($userCode);
 	$topic= $objLbl->getLabel("t_register","topic","th");
 
 ?>
@@ -404,10 +406,29 @@
 				</tr>
 			</table>
 		</div>
-		<div class="col-sm-4">&nbsp;
+		<div class="col-sm-12"><hr/>
 		</div>
-		<div class="col-sm-12">&nbsp;
+		<div class="form-group">
+			
+			<div class="col-sm-12">
+				<table width="100%">
+					<tr>
+					<td width='150px'>
+						<label ><?php echo $objLbl->getLabel("t_register","everRequest","th").":" ?></label>
+
+					</td>
+					<td width='50px'>
+						<input type="checkbox"  class="form-check-input" id="obj_everRequest">
+					</td>
+					<td>
+						<input type="text" id="obj_everSchool" class="form-control">
+
+					</td>	
+					</tr>
+				</table>
+			</div>
 		</div>
+		<div class="col-sm-12">&nbsp;</div>	
 		<div class="form-group">
 			<div class="col-sm-8">
 				<table width="100%">
@@ -425,14 +446,16 @@
 			<div class="col-sm-4">&nbsp;
 			</div>
 		</div>
+		
 	   </div>
 	
 	
 		<div class="col-sm-12">&nbsp;</div>
 		 <div class="modal-footer">
-		 			<a href="#" class="btn btn-success pull-left" id="btnGrace"><i class="fa fa-fighter-jet" ></i>&nbsp;ขอผ่อนผันการเกณทหาร </a>
 
          			<a href="#" class="btn btn-primary pull-left" id="btnSave"><i class="fa fa-floppy-o" ></i>&nbsp;บันทึก </a>
+         			<a href="#" class="btn btn-success pull-left" id="btnGrace"><i class="fa fa-fighter-jet" ></i>&nbsp;ขอผ่อนผันการเกณทหาร </a>
+         			<a href="#" class="btn btn-info pull-left" id="btnPrint"><i class="fa fa-print" ></i>&nbsp;พิมพ์เอกสาร </a>
          			
           </div>
 		
@@ -450,7 +473,7 @@
 
 </form>
 <div style="display:none">
-	<input type="file" id="obj_file" name="obj_file">
+	<input type="file" id="obj_file" accept="application/pdf" name="obj_file">
 	
 </div>
 </section>
@@ -461,6 +484,11 @@
 
 
 var input = document.getElementById('obj_birthDate');
+
+  function getPDF(){
+     var url="<?=$rootPath?>/report/genTotalPDF.php?id="+$("#obj_id").val();
+     window.open(url);
+  }
 
 function getBirthDate(birthDate){
 	var strDate="";
@@ -660,9 +688,9 @@ idInputMask(idInput);
 			telNo:$("#obj_TelNo").val(),
 			eduLevel:$("#obj_eduLevel").val(),
 			eduProgram:$("#obj_eduProgram").val(),
-			eduType:$("#obj_eduType").val()
-
-
+			eduType:$("#obj_eduType").val(),
+			everRequest:$("#obj_everRequest").checked,
+			everSchool:$("#obj_everSchool").val() 
 
 		}
 		var jsonData=JSON.stringify (jsonObj);
@@ -695,10 +723,12 @@ idInputMask(idInput);
 				eduLevel:$("#obj_eduLevel").val(),
 				eduProgram:$("#obj_eduProgram").val(),
 				eduType:$("#obj_eduType").val(),
+				everRequest:1,
+				everSchool:$("#obj_everSchool").val(), 
 				id:$("#obj_id").val()
 			}
 			var jsonData=JSON.stringify (jsonObj);
-			console.log(jsonData);
+			//console.log(jsonData);
 			var flag=executeData(url,jsonObj,false);
 			return flag;
 	}
@@ -722,7 +752,13 @@ idInputMask(idInput);
 			$("#obj_departmentCode").val("");
 			$("#obj_TelNo").val("");
 			$("#obj_eduProgram").val("");
-			$("#obj_eduLevel").val("")
+			$("#obj_eduLevel").val("");
+			$("#obj_everRequest").checked(false);
+			$("#obj_everSchool").val("");
+			/*
+				everRequest:$("#obj_everRequest").checked
+			*/
+
    }
 
 
@@ -734,22 +770,21 @@ idInputMask(idInput);
 		var flag;
 		flag=true;
 		if(flag==true){
-					if($("#obj_id").val()!=""){
-			flag=updateData();
+			if(eval($("#obj_id").val())!==0){
+					flag=updateData();
 			}else{
-			flag=createData();
+					flag=createData();
 		}
 		if(flag==true){
 				swal.fire({
-				title: "การบันทึกข้อมูลเสร็จสมบูรณ์แล้ว",
-				type: "success",
-				buttons: [false, "ปิด"],
-				dangerMode: true,
-		}).then((result)=>{
-			//displayData();
-			//clearData();
+						title: "การบันทึกข้อมูลเสร็จสมบูรณ์แล้ว",
+						type: "success",
+						buttons: [false, "ปิด"],
+						dangerMode: true,
+				}).then((result)=>{
+					
 
-		});
+				});
 		
 		}
 		else{
@@ -792,7 +827,9 @@ idInputMask(idInput);
 	function readOne(id){
 		if(id!=""){
 		var url='<?=$rootPath?>/tregister/readOne.php?id='+id;
+		console.log(url);
 		data=queryData(url);
+		//console.log(JSON.stringify(data));
 		if(data!=""){
 						$("#obj_studentCode").val(data.studentCode);
 						$("#obj_studentName").val(data.studentName);
@@ -817,6 +854,13 @@ idInputMask(idInput);
 						$("#obj_eduProgram").val(data.eduProgram);
 						$("#obj_eduLevel").val(data.eduLevel);
 						$("#obj_eduType").val(data.eduType);
+						if(data.everRequest===1)
+							//$("#obj_everRequest").checked(true);
+							$('#obj_everRequest').attr('checked', true);
+						else
+							$('#obj_everRequest').attr('checked', false);
+
+						$("#obj_everSchool").val(data.everSchool);
 				}
 			}
 		}
@@ -844,6 +888,9 @@ idInputMask(idInput);
 			registerId:$("#obj_id").val()
 		}
 		var flag=executeData(url,jsonObj,false);
+
+
+
 		return flag;
 	}
 
@@ -884,10 +931,22 @@ idInputMask(idInput);
 		if($("#obj_file").val()!=""){
 			 
               var file=$("#obj_file").val().split('\\').pop();
-              var fileName =  "<?=$cnf->restURL?>uploads/"+$("#obj_id").val()+"/"+file;
-              fileUpload("obj_file","../uploads/"+$("#obj_id").val());
-              removeFile();
-              addFile(fileName);
+              var ext=file.split('.').pop();
+              if(ext==="pdf"){	
+		              var fileName =  "<?=$cnf->restURL?>uploads/"+$("#obj_id").val()+"/"+file;
+		              fileUpload("obj_file","../uploads/"+$("#obj_id").val());
+		              removeFile();
+		              addFile(fileName);
+		              var cnvUrl="<?=$restURL?>tregister/convert.php?folder="+$("#obj_id").val()+"&filename="+file+"&alias="+$("#obj_docType").val();
+					  flag =executeGet(cnvUrl);
+			  }else{
+			  		swal.fire({
+						title: "เพิ่มได้เฉพาะไฟล์ .pdf เท่านั้น!",
+						type: "error",
+						buttons: [false, "ปิด"],
+						dangerMode: true,
+					});
+			  }
           }
 	}
 
@@ -905,6 +964,7 @@ idInputMask(idInput);
 		readOne($("#obj_id").val());
 		displayDocument();
 	
+
 
 		if($("#obj_id").val()!==""){
 			 readOne($("#obj_id").val());
@@ -957,6 +1017,19 @@ idInputMask(idInput);
 			var url="<?=$rootPath?>/tregister/dateDiff.php?birthDate="+$("#obj_birthDate").val();
 			data=queryData(url);
 			$("#obj_age").val(data.age);
+		});
+
+		$("#obj_everRequest").change(function(){
+			if(this.checked===false){
+				$("#obj_everSchool").val("");
+				$("#obj_everSchool").attr("disabled", "disabled"); 
+			}else{
+			 	$("#obj_everSchool").removeAttr("disabled");
+			 } 
+		});
+
+		$("#btnPrint").click(function(){
+			getPDF();
 		});
 
 

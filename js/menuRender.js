@@ -3,8 +3,8 @@ var full = location.pathname;
 var res = full.split("/");
 var rootPath="http://localhost"+"/"+res[1];
 function getChildMenu(parentMenu){
-   var url=rootPath+"/menu/getChildMenu.php?parent="+parentMenu;
-   console.log(url);
+   var url="./menu/getChildMenu.php?parent="+parentMenu;
+   //console.log(url);
 
    var data=queryData(url);
    var row="<ul class=\"treeview-menu\">";
@@ -23,7 +23,7 @@ function clickMenu(link){
 }
 
 function getHeadMenu(menuPane){
-   var url=rootPath+"/menu/getHeadMenu.php";
+   var url="./menu/getHeadMenu.php";
    var data=queryData(url);
    var row="";
    var i=0;

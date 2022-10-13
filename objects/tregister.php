@@ -30,6 +30,8 @@ class  tregister{
 	public $eduProgram;
 	public $registYear;
 	public $eduType;
+	public $everRequest;
+	public $everSchool;
 
 
 
@@ -45,19 +47,23 @@ class  tregister{
 			extract($row);
 			return $id;
 		}else{
-			return "";
+			return 0;
 		}
-		return "";
+		return 0;
 
 	}
 
+	/*public function isExist($stuentCode){
+		$query="SELECT studentCode 
+		FROM t_register WHERE studentCode";
+	}*/
 
 
 
 	public function create(){
 
 	
-		$query='INSERT INTO t_register  
+		$query="INSERT INTO t_register  
         	SET 
 			studentCode=:studentCode,
 			studentName=:studentName,
@@ -82,9 +88,9 @@ class  tregister{
 			eduLevel=:eduLevel,
 			eduProgram=:eduProgram,
 			registYear=:registYear,
-			eduType=:eduType
-
-	';
+			eduType=:eduType,
+			everRequest=:everRequest,
+			everSchool=:everSchool";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(":studentCode",$this->studentCode);
 		$stmt->bindParam(":studentName",$this->studentName);
@@ -110,11 +116,12 @@ class  tregister{
 		$stmt->bindParam(":eduProgram",$this->eduProgram);
 		$stmt->bindParam(":registYear",$this->registYear);
 		$stmt->bindParam(":eduType",$this->eduType);
+		$stmt->bindParam(":everRequest",$this->everRequest);
+		$stmt->bindParam(":everSchool",$this->everSchool);
 
 
 		$flag=$stmt->execute();
 		$arr = $stmt->errorInfo();
-		//print_r($arr);
 		return $flag;
 	}
 	public function update(){
@@ -143,7 +150,9 @@ class  tregister{
 			eduLevel=:eduLevel,
 			eduProgram=:eduProgram,
 			registYear=:registYear,
-			eduType=:eduType
+			eduType=:eduType,
+			everRequest=:everRequest,
+			everSchool=:everSchool
 		 WHERE id=:id';
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(":studentCode",$this->studentCode);
@@ -170,13 +179,16 @@ class  tregister{
 		$stmt->bindParam(":eduProgram",$this->eduProgram);
 		$stmt->bindParam(":registYear",$this->registYear);
 		$stmt->bindParam(":eduType",$this->eduType);
+		$stmt->bindParam(":everRequest",$this->everRequest);
+		$stmt->bindParam(":everSchool",$this->everSchool);
 
 		$stmt->bindParam(":id",$this->id);
 		$flag=$stmt->execute();
 		$arr = $stmt->errorInfo();
-		//print_r($arr);
 		return $flag;
 	}
+
+	
 	public function readOne(){
 		$query='SELECT  id,
 			studentCode,
@@ -201,7 +213,9 @@ class  tregister{
 			eduLevel,
 			eduProgram,
 			registYear,
-			eduType
+			eduType,
+			everRequest,
+			everSchool
 		FROM t_register WHERE id=:id';
 	
 		$stmt = $this->conn->prepare($query);
@@ -209,6 +223,45 @@ class  tregister{
 		$stmt->execute();
 		return $stmt;
 	}
+
+	public function getDataById($id){
+		$query="SELECT  A.id,
+			A.studentCode,
+			A.studentName,
+			A.personalId,
+			A.birthDate,
+			A.age,
+			A.street,
+			A.homeNo,
+			A.mooNo,
+			A.subDistrict,
+			B.disName_TH AS district,
+			C.prvName_TH AS province,
+			A.postalCode,
+			A.fatherName,
+			A.motherName,
+			A.fatherTel,
+			A.motherTel,
+			A.eduLevel,
+			A.eduProgram,
+			A.registYear,
+			A.eduType,
+			A.departmentCode,
+			A.everRequest,
+			A.everSchool,
+			A.telNo,
+			A.registYear
+		FROM t_register A  INNER JOIN district B 
+		ON A.district=B.code INNER JOIN province C 
+		ON A.province=C.code 
+		 WHERE A.id=:id";
+	
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindParam(':id',$id);
+		$stmt->execute();
+		return $stmt;
+	}
+
 	public function getData($keyWord){
 
 		$query="SELECT  id,
@@ -232,7 +285,9 @@ class  tregister{
 			telNo,
 			eduLevel,
 			eduProgram,
-			registYear
+			registYear,
+			everRequest,
+			everSchool
 		FROM t_register WHERE 
 		CONCAT(studentCode,' ',studentName,' ',personalId) 
 		LIKE :keyWord";

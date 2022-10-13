@@ -56,5 +56,13 @@ $objLbl = new ClassLabel($db);
 							placeholder='description'>
 			</div>
 		</div>
+		<div class='form-group'>
+			<label class="col-sm-12"><?php echo $objLbl->getLabel("t_grace","obj_everSchool","th").":" ?></label>
+			<div class="col-sm-12">
+				<input type="text" 
+							class="form-control" id='obj_everSchool' 
+							placeholder='description'>
+			</div>
+		</div>
 </div>
 </form>

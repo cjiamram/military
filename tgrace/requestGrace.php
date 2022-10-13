@@ -75,6 +75,15 @@
 			&nbsp;ครั้ง
 			</div>
 		</div>
+
+		<div class='form-group'>
+			<label class="col-sm-12"><?php echo $objLbl->getLabel("t_grace","everSchool","th").":" ?></label>
+			<div class="col-sm-12">
+				<input type="text" 
+							class="form-control" id='obj_everSchool' 
+							placeholder='eg:มหาวิทยาลัยราชภัฏนครราชสีมา'>
+			</div>
+		</div>
 		<div class="col-sm-12">&nbsp;</div>
 		 <div class="modal-footer">
          			<a href="#" class="btn btn-primary pull-left" id="btnSave"><i class="fa fa-floppy-o" ></i>&nbsp;บันทึก </a>
@@ -105,10 +114,11 @@
 				studentCode:$("#obj_studentCode").val(),
 				graceYear:$("#obj_graceYear").val(),
 				description:$("#obj_description").val(),
-				graceNo:$("#obj_graceNo").val()
+				graceNo:$("#obj_graceNo").val(),
+				everSchool:$("#obj_everSchool").val()
 			}
 			var jsonData=JSON.stringify (jsonObj);
-			//console.log();
+			//console.log(jsonData);
 			var flag=executeData(url,jsonObj,false);
 			return flag;
 	}
@@ -119,20 +129,24 @@
 				graceYear:$("#obj_graceYear").val(),
 				description:$("#obj_description").val(),
 				graceNo:$("#obj_graceNo").val(),
+				everSchool:$("#obj_everSchool").val(),
 				id:$("#obj_id").val()
 			}
 			var jsonData=JSON.stringify (jsonObj);
+			//console.log(jsonData);
 			var flag=executeData(url,jsonObj,false);
 			return flag;
 	}
 	function readOne(id){
-			var url='tgrace/readOne.php?id='+id;
+			var url="<?=$rootPath?>/tgrace/readOne.php?id="+id;
+			//console.log(url);
 			data=queryData(url);
 			if(data!=""){
 				$("#obj_studentCode").val(data.studentCode);
 				$("#obj_graceYear").val(data.graceYear);
 				$("#obj_description").val(data.description);
 				$("#obj_graceNo").val(data.graceNo);
+				$("#obj_everSchool").val(data.everSchool);
 				$("#obj_id").val(data.id);
 			}
 	}
@@ -206,7 +220,6 @@
 	function displayData(){
 		var url="<?=$rootPath?>/tgrace/displayData.php?studentCode="+$("#obj_studentCode").val();
 		//console.log(url);
-
 		$("#tblDisplay").load(url);
 	}
 
@@ -223,12 +236,26 @@
 				$("#obj_description").val("");
 	}
 
+	function updateEverSchool(){
+		var jsonObj={
+			everSchool:$("#obj_everSchool").val(),
+			studentCode:$("#obj_studentCode").val()
+		}
+		var jsonData=JSON.stringify(jsonObj);
+		console.log(jsonData);
+		var url="<?=$rootPath?>/tgrace/updateEverSchool.php";
+		var flag=executeData(url,jsonObj,false);
+		console.log(flag);
+		return flag;
+	}
+
 	$(document).ready(function(){
 		displayData();
 		setGraceNo();
 		$("#btnSave").click(function(){
 			saveData();
 			setGraceNo();
+			updateEverSchool();
 
 		});
 	});

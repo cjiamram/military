@@ -23,7 +23,8 @@ if($num>0){
 			"createDate" =>  $createDate,
 			"adminAprove" =>  $adminAprove,
 			"description"=>$description,
-			"graceNo"=>$graceNo
+			"graceNo"=>$graceNo,
+			"everSchool"=>$everSchool
 		);
 }
 echo(json_encode($item));
